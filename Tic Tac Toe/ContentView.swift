@@ -5,11 +5,15 @@
 //  Created by Daksh Nakra on 11/22/22.
 //
 
+// When you get to this again, Start at step 8: Determine all winning possibilities
+
 import SwiftUI
 
 struct ContentView: View {
     @State private var moves = Array(repeating: "", count: 9)
     @State private var xTurn = true
+    @State private var gameOver = false
+    @State private var winMessage = ""
     var body: some View {
         VStack {
             Text("Tic Tac Toe")
@@ -19,7 +23,7 @@ struct ContentView: View {
                 ForEach(0..<9){ index in
                     ZStack {
                         Color.purple
-                        Color.white
+                        Color.gray
                             .opacity(moves[index] == "" ? 1 : 0)
                         Text(moves[index])
                             .font(.system(size: 90))
@@ -42,7 +46,20 @@ struct ContentView: View {
                 }
             }
         }
+        .preferredColorScheme(.dark)
+        .alert(isPresented: $gameOver) {
+            Alert(title: Text(winMessage))
+        }
+        .onChange(of: moves) {
+            newValue in checkForWinner()
+        }
         .padding()
+    }
+    private func checkForWinner() {
+        if moves [0] != "" && moves[0] == moves[1] && moves[1] == moves [2] {
+            winMessage = "The \(moves[0]) side has won!"
+            gameOver = true
+        }
     }
 }
 
