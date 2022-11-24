@@ -5,8 +5,6 @@
 //  Created by Daksh Nakra on 11/22/22.
 //
 
-// When you get to this again, Start at step 8: Determine all winning possibilities
-
 import SwiftUI
 
 struct ContentView: View {
@@ -56,8 +54,21 @@ struct ContentView: View {
         .padding()
     }
     private func checkForWinner() {
-        if moves [0] != "" && moves[0] == moves[1] && moves[1] == moves [2] {
-            winMessage = "The \(moves[0]) side has won!"
+        // rows
+        checkLine(a: 0, b: 1, c: 2) // top row
+        checkLine(a: 3, b: 4, c: 5) // middle row
+        checkLine(a: 6, b: 7, c: 8) // bottom row
+        // columns
+        checkLine(a: 0, b: 3, c: 6) // left column
+        checkLine(a: 1, b: 4, c: 7) // middle column
+        checkLine(a: 2, b: 5, c: 8) // right column
+        // diagonals
+        checkLine(a: 0, b: 4, c: 8) // top-left to bottom-right
+        checkLine(a: 2, b: 4, c: 6) // top-right to bottom-left
+    }
+    private func checkLine(a: Int, b: Int, c: Int) {
+        if moves [a] != "" && moves[a] == moves[b] && moves[b] == moves [c] {
+            winMessage = "The \(moves[a]) side has won!"
             gameOver = true
         }
     }
